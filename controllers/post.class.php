@@ -1,6 +1,6 @@
 <?php
 class Post extends DB {
-  function get(){
+  function getall(){
     return $this->select("SELECT * FROM `post`");
   }
 }

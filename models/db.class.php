@@ -35,5 +35,14 @@ class DB {
 		$this->stmt = null;
 		return $result;
 	}
+
+	function create($sql){
+		$result = false;
+		try {
+		$this->stmt = $this->pdo->prepare($sql);
+		$this->stmt->execute();
+		} catch (Exception $ex) { die($ex->getMessage()); }
+		$this->stmt = null;
+		return true;
+	}
 }
-?>
