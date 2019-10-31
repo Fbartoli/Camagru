@@ -1,0 +1,6 @@
+<- Vertex ----------------------------------------------------------------------
+The users class get users from the database.
+
+The method 'get' expect 0 parameter and returns the list of users in the database
+
+---------------------------------------------------------------------- Vertex ->

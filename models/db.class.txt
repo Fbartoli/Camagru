@@ -1,0 +1,10 @@
+<- Vertex ----------------------------------------------------------------------
+The db class handles sql queries.
+
+The __construct handles the connection to the database.
+The __destruct kills the connection to the database.
+
+The method 'select' expect 2 parameters :
+	=> 'sql' : the queries to execute
+
+---------------------------------------------------------------------- Vertex ->
