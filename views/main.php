@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php require_once("header.html"); ?>
+<?php require_once("header.php"); ?>
 
 <body>
 	<ul><?php
@@ -11,6 +11,6 @@
 		}
 		?></ul>
 </body>
-<footer> join us, blabla</footer>
+<?php require_once("footer.html"); ?>
 
 </html>
