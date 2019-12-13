@@ -1,54 +1,35 @@
-#main {
-	border: 1px solid black;
-	margin: 0 10%;
-	width: 640px;
-	height: 482px;
-}
-
 #side {
 	border: 1px solid black;
-	max-width: 940px;
-	transition: padding 250ms;
+	max-width: 320px;
+	max-height: 740px;
 	overflow: hidden;
-	position: fixed;
-	left: 60%;
-	top: 100px;
 	overflow-y: scroll;
 }
 
 #video {
 	border: 1px solid black;
-	width: 320px;
-	height: 240px;
-	z-index: 5;
+	width: 640px;
+	height: 320px;
 }
 
 #photo {
 	border: 1px solid black;
-	width: 320px;
-	height: 240px;
 }
 
 #canvas {
-	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
 }
 
 .camera {
-	width: 320px;
-	height: 240px;
+	width: 640px;
+	height: 480px;
 	margin: 0;
 	padding: 0;
-}
-
-.output {
-	margin: 0;
-	padding: 0;
-	width: 320px;
 }
 
 #startbutton {
-	display: block;
-	position: relative;
 	margin-left: auto;
 	margin-right: auto;
 	bottom: 32px;

@@ -21,7 +21,13 @@
 			<div class="col-md-12">
 				<form action="/forms/auth.php" onsubmit="checkSignIn()" method="post" accept-charset="utf-8" class="form" role="form" name='signform'>
 					<legend>Sign In</legend>
-					<input type="text" name="pseudo" value="" class="form-control input-lg" placeholder="Your nickname" required />
+					<label for="username">
+						<i class="fas fa-user"></i>
+					</label>
+					<input type="text" name="username" value="" class="form-control input-lg" placeholder="Your nickname" required />
+					<label for="password">
+						<i class="fas fa-lock"></i>
+					</label>
 					<input type="password" name="pass" value="" class="form-control input-lg" placeholder="Password" required />
 					<br />
 					<button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">

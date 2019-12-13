@@ -26,7 +26,7 @@
 		<![endif]-->
 	<div class="container" id="wrap">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-6 col-md-offset-3">
 				<form action="/forms/register.php" onsubmit="checkSignIn()" method="post" accept-charset="utf-8" class="form" role="form" name='signform'>
 					<legend>Sign Up</legend>
 					<h4>It's free and always will be.</h4>
@@ -36,7 +36,7 @@
 						<div class="col-xs-6 col-md-6">
 							<input type="text" name="lastname" value="" class="form-control input-lg" placeholder="Last Name" required /> </div>
 					</div>
-					<input type="text" name="pseudo" value="" class="form-control input-lg" placeholder="Your nickname" required />
+					<input type="text" name="username" value="" class="form-control input-lg" placeholder="Your nickname" required />
 					<input type="email" name="email" value="" class="form-control input-lg" placeholder="Your Email" required />
 					<input type="password" name="pass" value="" class="form-control input-lg" placeholder="Password" required />
 					<input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password" required />

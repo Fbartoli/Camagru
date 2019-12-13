@@ -6,9 +6,9 @@ class Users extends DB
 		return $this->select("SELECT * FROM `user`");
 	}
 
-	function get($pseudo, $email)
+	function get($username, $email)
 	{
-		return $this->select('SELECT id, firstname, lastname, pseudo, pass, reg_date FROM `user` WHERE pseudo ="' . $pseudo . '" OR email ="' . $email . '"');
+		return $this->select('SELECT id, firstname, lastname, username, pass, reg_date FROM `user` WHERE username ="' . $username . '" OR email ="' . $email . '"');
 	}
 
 	function getIpAddr()
@@ -27,22 +27,46 @@ class Users extends DB
 
 	function create_user($array)
 	{
-		$pseudo = $array['pseudo'];
+		$uniqid = null;
+		$username = $array['username'];
 		$email = $array['email'];
-		if (!($this->get($pseudo, $email))) {
-			$array['pass'] = hash('whirlpool', $array['pass']);
-			$query = "INSERT INTO `user`(firstname, lastname, pseudo, email, pass) VALUES ('" . $array['firstname'] . "', '" . $array['lastname'] . "', '" . $array['pseudo'] . "', '" . $array['email'] . "', '" . $array['pass'] . "')";
-			return $this->create($query);
+		if (!($this->get($username, $email))) {
+			$uniqid = $this->create($array);
+			$from    = 'noreply@localhost';
+			$subject = 'Account Activation Required';
+			$headers = 'From: ' . $from . "\r\n" . 'Reply-To: ' . $from . "\r\n" . 'X-Mailer: PHP/' . phpversion() . "\r\n" . 'MIME-Version: 1.0' . "\r\n" . 'Content-Type: text/html; charset=UTF-8' . "\r\n";
+			$activate_link = 'localhost:8000/forms/activate.php?username=' . $username . '&code=' . $uniqid;
+			$message = '<p>Please click the following link to activate your account: <a href="' . $activate_link . '">' . $activate_link . '</a></p>';
+			mail($_POST['email'], $subject, $message, $headers);
+			echo 'Please check your email to activate your account!';
+			return true;
 		} else
 			return NULL;
 	}
-	function auth($array)
+
+	function update_user($array)
 	{
-		$pseudo = $array['pseudo'];
-		$info = $this->get($pseudo, "");
+		if ($this->update($array)) {
+			return true;
+		} else
+			return NULL;
+	}
+
+	function auth($username, $password)
+	{
+		$info = $this->getUser($username);
 		if ((isset($info))) {
-			$array['pass'] = hash('whirlpool', $array['pass']);
-			if ($info[0]['pass'] === $array['pass'])
+			if (hash('whirlpool', $password) === $info['pass'] && $info['activated'] === 1)
+				return true;
+		} else
+			return NULL;
+	}
+
+	function code($username, $code)
+	{
+		$info = $this->getUser($username);
+		if ((isset($info))) {
+			if ($code === $info['activation_code'])
 				return true;
 		} else
 			return NULL;

@@ -50,15 +50,62 @@ class DB
 		return $result;
 	}
 
-	function create($sql)
+	function create($array)
 	{
 		try {
-			$this->stmt = $this->pdo->prepare($sql);
-			$this->stmt->execute();
+			$array['pass'] = hash('whirlpool', $array['pass']);
+			$uniqid = uniqid();
+			$this->stmt = $this->pdo->prepare("INSERT INTO `user`(firstname, lastname, username, email, pass, activation_code) VALUES (:firstname, :lastname, :username, :email, :pass, :activation_code)");
+			$this->stmt->execute([':firstname' => $array['firstname'], ':lastname' => $array['lastname'], ':username' => $array['username'], ':email' => $array['email'], ':pass' => $array['pass'], ':activation_code' => $uniqid]);
+		} catch (Exception $ex) {
+			die($ex->getMessage());
+		}
+		$this->stmt = null;
+		return $uniqid;
+	}
+
+	function update($array)
+	{
+		try {
+			if (isset($array['pass']) && !empty($array['pass'])) {
+				$array['pass'] = hash('whirlpool', $array['pass']);
+				$this->stmt = $this->pdo->prepare("UPDATE `user` SET username = :username, email = :email, pass = :pass WHERE username = :oldusr");
+				$this->stmt->execute([':username' => $array['username'], ':email' => $array['email'], ':pass' => $array['pass'], ':oldusr' => $array['oldusr']]);
+			} else {
+				$this->stmt = $this->pdo->prepare("UPDATE `user` SET username = :username, email = :email WHERE username = :oldusr");
+				$this->stmt->execute([':username' => $array['username'], ':email' => $array['email'], ':oldusr' => $array['oldusr']]);
+			}
+		} catch (Exception $ex) {
+			$ex->getMessage();
+			return false;
+		}
+		$this->stmt = null;
+		return true;
+	}
+
+	function activation($username)
+	{
+		try {
+			$this->stmt = $this->pdo->prepare("UPDATE `user` SET `activated` = 1 WHERE `username` = :username");
+			$this->stmt->execute([':username' => $username]);
 		} catch (Exception $ex) {
 			die($ex->getMessage());
 		}
 		$this->stmt = null;
 		return true;
+	}
+
+	function getUser($username)
+	{
+		$result = false;
+		try {
+			$this->stmt = $this->pdo->prepare('SELECT *	 FROM user WHERE username = :username');
+			$this->stmt->execute([':username' => $username]);
+			$result = $this->stmt->fetch();
+		} catch (Exception $ex) {
+			die($ex->getMessage());
+		}
+		$this->stmt = null;
+		return $result;
 	}
 }

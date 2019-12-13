@@ -2,19 +2,24 @@
 <?php require_once("header.php"); ?>
 
 <body>
-	<div id="main">
-		<div class="camera">
-			<video class="overlay" id="video">Video stream not available.</video>
-			<button id="startbutton">Take photo</button>
+	<div class="container-fluid">
+		<div id="main" class="row text-center ">
+			<div class="camera col-md-5">
+				<video id="video" poster="/img/camagru.png">Video stream not available.</video>
+				<canvas id="canvas">
+				</canvas>
+			</div>
+			<div class="col-md-1">
+				<button id="startbutton" class="btn btn-primary">Take photo</button>
+			</div>
+			<div id="side" class="output col-md-6">
+			</div>
+
 		</div>
-		<div class="output">
-			<img id="photo" alt="The screen capture will appear in this box.">
-		</div>
-		<canvas id="canvas">
-		</canvas>
+
 	</div>
-	<div id="side">
-	</div>
+
+
 
 
 </body>
@@ -37,17 +42,13 @@
 		var side = null;
 		var video = null;
 		var canvas = null;
-		var photo = null;
 		var startbutton = null;
-		// var picturelist = new Array();
 
 		function startup() {
 			video = document.getElementById('video');
 			canvas = document.getElementById('canvas');
-			photo = document.getElementById('photo');
 			startbutton = document.getElementById('startbutton');
-			// side = document.getElementById('side');
-
+			side = document.getElementById('side');
 			navigator.mediaDevices.getUserMedia({
 					video: true,
 					audio: false
@@ -59,7 +60,6 @@
 				.catch(function(err) {
 					console.log("An error occurred: " + err);
 				});
-
 			video.addEventListener('canplay', function(ev) {
 				if (!streaming) {
 					height = video.videoHeight / (video.videoWidth / width);
@@ -70,7 +70,6 @@
 					if (isNaN(height)) {
 						height = width / (4 / 3);
 					}
-
 					video.setAttribute('width', width);
 					video.setAttribute('height', height);
 					canvas.setAttribute('width', width);
@@ -83,7 +82,6 @@
 				takepicture();
 				ev.preventDefault();
 			}, false);
-
 			clearphoto();
 		}
 
@@ -94,9 +92,6 @@
 			var context = canvas.getContext('2d');
 			context.fillStyle = "#AAA";
 			context.fillRect(0, 0, canvas.width, canvas.height);
-
-			var data = canvas.toDataURL('image/png');
-			photo.setAttribute('src', data);
 		}
 
 		// Capture a photo by fetching the current contents of the video
@@ -107,18 +102,18 @@
 
 		function takepicture() {
 			var context = canvas.getContext('2d');
+			var imgPath = '../img/camagru.png';
+			var imgObj = new Image(50, 50);
+			imgObj.src = imgPath;
 			if (width && height) {
 				canvas.width = width;
 				canvas.height = height;
 				context.drawImage(video, 0, 0, width, height);
-
+				context.drawImage(imgObj, 70, 50);
 				var data = canvas.toDataURL('image/png');
-				photo.setAttribute('src', data);
-				// picturelist.push(data);
-				// console.log(picturelist);
-				// var img = document.createElement("img");
-				// img.setAttribute('src', data);
-				// side.append(img);
+				var img = document.createElement("img");
+				img.setAttribute('src', data);
+				side.prepend(img);
 			} else {
 				clearphoto();
 			}
