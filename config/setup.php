@@ -1,22 +1,24 @@
 <?php
-$user = "root";
-$db = "camagru";
-$pass = "1234";
-$host = "127.0.0.1:3306";
+require_once("database.php");
 
-$link = mysqli_connect($host,$user,$pass);
-if (mysqli_connect_error()){
+$link = mysqli_connect($host, $user, $pass);
+if (mysqli_connect_error()) {
 	echo "Could not connect to the database";
+}
+$query = "DROP DATABASE camagru";
+mysqli_query($link, $query);
+if ($error = mysqli_error($link)) {
+	echo $error . PHP_EOL;
 }
 $query = "CREATE DATABASE IF NOT EXISTS camagru";
 mysqli_query($link, $query);
-if ($error = mysqli_error($link)){
-	echo $error.PHP_EOL;
+if ($error = mysqli_error($link)) {
+	echo $error . PHP_EOL;
 }
 mysqli_close($link);
 
-$link = mysqli_connect($host,$user,$pass,$db);
-if (mysqli_connect_error()){
+$link = mysqli_connect($host, $user, $pass, $db);
+if (mysqli_connect_error()) {
 	echo "Could not connect to the database";
 }
 $query = "CREATE TABLE IF NOT EXISTS user (
@@ -29,8 +31,8 @@ $query = "CREATE TABLE IF NOT EXISTS user (
 	reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
 mysqli_query($link, $query);
-if ($error = mysqli_error($link)){
-	echo $error.PHP_EOL;
+if ($error = mysqli_error($link)) {
+	echo $error . PHP_EOL;
 }
 
 $query = "CREATE TABLE IF NOT EXISTS post (
@@ -40,7 +42,6 @@ $query = "CREATE TABLE IF NOT EXISTS post (
 	post_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
 mysqli_query($link, $query);
-if ($error = mysqli_error($link)){
-	echo $error.PHP_EOL;
+if ($error = mysqli_error($link)) {
+	echo $error . PHP_EOL;
 }
-?>

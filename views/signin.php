@@ -18,7 +18,7 @@
 <body>
 	<div class="container" id="wrap">
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+			<div class="col-md-12">
 				<form action="/forms/auth.php" onsubmit="checkSignIn()" method="post" accept-charset="utf-8" class="form" role="form" name='signform'>
 					<legend>Sign In</legend>
 					<input type="text" name="pseudo" value="" class="form-control input-lg" placeholder="Your nickname" required />

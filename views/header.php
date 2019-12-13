@@ -22,7 +22,7 @@
 				<li class="nav-item active">
 					<a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
 				</li>
-				<?php if ($_SESSION['loggued'] === 0) {
+				<?php if (!isset($_SESSION['loggued']) || $_SESSION['loggued'] === 0) {
 					echo '<li class="nav-item">
 					<a class="nav-link" href="/signup">signup</a>
 				</li>
